@@ -144,3 +144,14 @@ pandas
 ```
 
 ---
+
+## 👤 Author
+
+**Your Name**  
+GitHub: [mahipalrajpurohit529-dotcom](https://github.com/mahipalrajpurohit529-dotcom/covid-prediction-app)
+
+---
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
