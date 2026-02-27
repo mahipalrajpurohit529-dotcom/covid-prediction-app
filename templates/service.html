@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .service-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .service-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    background: rgba(0,245,255,0.04);
+    border: 1px solid rgba(0,245,255,0.15);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .service-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    cursor: pointer;
+  }
+
+  .service-card:has(input:checked) {
+    border-color: var(--cyan);
+    background: rgba(0,245,255,0.1);
+    box-shadow: 0 0 20px rgba(0,245,255,0.1);
+  }
+
+  .service-card:hover {
+    border-color: rgba(0,245,255,0.4);
+    background: rgba(0,245,255,0.07);
+  }
+
+  .service-icon {
+    font-size: 1.4rem;
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: rgba(0,245,255,0.08);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .service-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .service-card:has(input:checked) .service-name {
+    color: var(--cyan);
+  }
+
+  .radio-dot {
+    width: 12px; height: 12px;
+    border: 2px solid var(--text-dim);
+    border-radius: 50%;
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+
+  .service-card:has(input:checked) .radio-dot {
+    border-color: var(--cyan);
+    background: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan);
+  }
+
+  /* Fallback for browsers without :has() - keep the select */
+  .select-fallback { display: none; }
+</style>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <div class="icon-box">🛠️</div>
+        BOOK A SERVICE
+      </h2>
+      <p>Select the service you need and submit your request</p>
+    </div>
+
+    {% if success %}
+    <div class="alert alert-success">
+      ✅ &nbsp; Your service request has been submitted successfully!
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('service') }}">
+
+      <!-- Visual radio cards -->
+      <div class="service-options">
+        <label class="service-card">
+          <input type="radio" name="service" value="Doctor Consultation" required />
+          <div class="service-icon">👨‍⚕️</div>
+          <div class="service-name">Doctor Consultation</div>
+          <div class="radio-dot"></div>
+        </label>
+
+        <label class="service-card">
+          <input type="radio" name="service" value="Lab Test" />
+          <div class="service-icon">🧪</div>
+          <div class="service-name">Lab Test</div>
+          <div class="radio-dot"></div>
+        </label>
+
+        <label class="service-card">
+          <input type="radio" name="service" value="Home Visit" />
+          <div class="service-icon">🏠</div>
+          <div class="service-name">Home Visit</div>
+          <div class="radio-dot"></div>
+        </label>
+
+        <label class="service-card">
+          <input type="radio" name="service" value="Vaccination" />
+          <div class="service-icon">💉</div>
+          <div class="service-name">Vaccination</div>
+          <div class="radio-dot"></div>
+        </label>
+
+        <label class="service-card" style="grid-column: span 2;">
+          <input type="radio" name="service" value="Health Checkup" />
+          <div class="service-icon">❤️</div>
+          <div class="service-name">Health Checkup</div>
+          <div class="radio-dot"></div>
+        </label>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;">
+        ⟶ &nbsp; Book Service
+      </button>
+    </form>
+
+    <div class="text-link">
+      <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

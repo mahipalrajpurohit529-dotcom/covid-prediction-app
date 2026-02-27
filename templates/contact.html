@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <div class="icon-box">✉️</div>
+        CONTACT US
+      </h2>
+      <p>Send us a message and we'll get back to you shortly</p>
+    </div>
+
+    {% if success %}
+    <div class="alert alert-success">
+      ✅ &nbsp; Your message has been sent! We'll get back to you soon.
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('contact') }}">
+
+      <div class="form-group">
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message"
+                  placeholder="Write your message here..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;">
+        ⟶ &nbsp; Send Message
+      </button>
+    </form>
+
+    <div class="text-link">
+      <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .dash-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 8px;
+  }
+
+  .dash-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 22px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dash-card::after {
+    content: '→';
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    opacity: 0;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+  }
+
+  .dash-card:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .dash-card:hover { transform: translateY(-3px); }
+
+  .dash-card .dc-icon {
+    font-size: 1.6rem;
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .dash-card .dc-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .dash-card .dc-sub {
+    font-size: 0.8rem;
+    opacity: 0.65;
+    font-weight: 400;
+  }
+
+  /* Color variants */
+  .dc-cyan {
+    background: rgba(0,245,255,0.06);
+    border-color: rgba(0,245,255,0.25);
+    color: var(--cyan);
+  }
+  .dc-cyan .dc-icon { background: rgba(0,245,255,0.12); }
+  .dc-cyan:hover { border-color: var(--cyan); box-shadow: 0 0 25px rgba(0,245,255,0.15); }
+
+  .dc-green {
+    background: rgba(0,255,136,0.06);
+    border-color: rgba(0,255,136,0.25);
+    color: #00ff88;
+  }
+  .dc-green .dc-icon { background: rgba(0,255,136,0.12); }
+  .dc-green:hover { border-color: #00ff88; box-shadow: 0 0 25px rgba(0,255,136,0.15); }
+
+  .dc-purple {
+    background: rgba(180,79,255,0.06);
+    border-color: rgba(180,79,255,0.25);
+    color: var(--purple);
+  }
+  .dc-purple .dc-icon { background: rgba(180,79,255,0.12); }
+  .dc-purple:hover { border-color: var(--purple); box-shadow: 0 0 25px rgba(180,79,255,0.15); }
+
+  .dc-orange {
+    background: rgba(255,165,0,0.06);
+    border-color: rgba(255,165,0,0.25);
+    color: #ffa500;
+  }
+  .dc-orange .dc-icon { background: rgba(255,165,0,0.12); }
+  .dc-orange:hover { border-color: #ffa500; box-shadow: 0 0 25px rgba(255,165,0,0.15); }
+
+  .dash-card { animation: fadeSlide 0.4s ease forwards; opacity: 0; }
+  .dash-card:nth-child(1) { animation-delay: 0.1s; }
+  .dash-card:nth-child(2) { animation-delay: 0.15s; }
+  .dash-card:nth-child(3) { animation-delay: 0.2s; }
+  .dash-card:nth-child(4) { animation-delay: 0.25s; }
+
+  .welcome-text {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+    line-height: 1.6;
+    padding: 14px 18px;
+    background: rgba(0,245,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .welcome-text span {
+    color: var(--cyan);
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+  }
+
+  .logout-wrap {
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <div class="icon-box">👋</div>
+        DASHBOARD
+      </h2>
+    </div>
+
+    <div class="welcome-text">
+      Welcome back, <span>{{ username }}</span>! Your health intelligence hub is ready. Choose a module below.
+    </div>
+
+    <div class="dash-grid">
+
+      <a href="{{ url_for('predict') }}" class="dash-card dc-cyan">
+        <div class="dc-icon">🔬</div>
+        <div class="dc-title">Predict</div>
+        <div class="dc-sub">Run the ML model</div>
+      </a>
+
+      <a href="{{ url_for('history') }}" class="dash-card dc-green">
+        <div class="dc-icon">📊</div>
+        <div class="dc-title">History</div>
+        <div class="dc-sub">View past predictions</div>
+      </a>
+
+      <a href="{{ url_for('service') }}" class="dash-card dc-purple">
+        <div class="dc-icon">🛠️</div>
+        <div class="dc-title">Book Service</div>
+        <div class="dc-sub">Request a service</div>
+      </a>
+
+      <a href="{{ url_for('contact') }}" class="dash-card dc-orange">
+        <div class="dc-icon">✉️</div>
+        <div class="dc-title">Contact</div>
+        <div class="dc-sub">Send us a message</div>
+      </a>
+
+    </div>
+
+    <div class="logout-wrap">
+      <a href="{{ url_for('logout') }}" class="btn btn-danger">
+        🚪 &nbsp; Logout
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .result-box {
+    background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(180,79,255,0.08));
+    border: 1px solid var(--cyan);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    animation: cardIn 0.4s ease;
+    box-shadow: var(--glow-cyan);
+  }
+  .result-icon {
+    font-size: 2rem;
+    width: 56px; height: 56px;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .result-label {
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .result-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    color: var(--cyan);
+    text-shadow: var(--glow-cyan);
+    font-weight: 700;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+</style>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <div class="icon-box">🔬</div>
+        DISEASE PREDICTION
+      </h2>
+      <p>Enter patient data to run the ML analysis</p>
+    </div>
+
+    {% if result %}
+    <div class="result-box">
+      <div class="result-icon">🧬</div>
+      <div>
+        <div class="result-label">Prediction Result</div>
+        <div class="result-value">{{ result }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('predict') }}">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input type="number" id="age" name="age"
+                 placeholder="e.g. 35" min="1" max="120" required />
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender" required>
+            <option value="">-- Select --</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fever">Fever (°F)</label>
+          <input type="number" id="fever" name="fever"
+                 placeholder="e.g. 102" min="95" max="115" required />
+        </div>
+
+        <div class="form-group">
+          <label for="cough">Cough</label>
+          <select id="cough" name="cough" required>
+            <option value="">-- Select --</option>
+            <option value="Mild">Mild</option>
+            <option value="Strong">Strong</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="city">City</label>
+        <select id="city" name="city" required>
+          <option value="">-- Select --</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Kolkata">Kolkata</option>
+          <option value="Bangalore">Bangalore</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-top:8px;">
+        ⟶ &nbsp; Run Prediction
+      </button>
+    </form>
+
+    <div class="text-link">
+      <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

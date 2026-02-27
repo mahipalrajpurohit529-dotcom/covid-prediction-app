@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+  .history-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,245,255,0.07);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .history-count span {
+    background: var(--cyan);
+    color: var(--bg);
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-weight: 700;
+    font-family: 'Orbitron', monospace;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  tbody tr:nth-child(odd) td {
+    background: rgba(0,245,255,0.02);
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.3);
+    color: var(--cyan);
+  }
+
+  .num-cell {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+</style>
+
+<div class="container wide">
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        <div class="icon-box">📊</div>
+        PREDICTION HISTORY
+      </h2>
+      <p>Your past ML analysis records</p>
+    </div>
+
+    {% if predictions %}
+
+    <div class="history-count">
+      Total Records: <span>{{ predictions|length }}</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Fever</th>
+            <th>Cough</th>
+            <th>City</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in predictions %}
+          <tr>
+            <td class="num-cell">{{ loop.index }}</td>
+            <td>{{ p.age }}</td>
+            <td>{{ p.gender }}</td>
+            <td>{{ p.fever }}°F</td>
+            <td>{{ p.cough }}</td>
+            <td>{{ p.city }}</td>
+            <td><span class="badge">{{ p.result }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% else %}
+    <div class="alert alert-info">
+      🛸 &nbsp; No prediction records found.
+      <a href="{{ url_for('predict') }}" style="color:var(--cyan); font-weight:700;">Make your first prediction →</a>
+    </div>
+    {% endif %}
+
+    <div class="text-link" style="margin-top:24px;">
+      <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
